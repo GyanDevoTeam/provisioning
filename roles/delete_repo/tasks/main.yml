@@ -1,0 +1,6 @@
+---
+# tasks file for delete_repo
+- name: delete repo
+  file:
+    path: "/home/azuregyan/gitlab_clone"
+    state: absent

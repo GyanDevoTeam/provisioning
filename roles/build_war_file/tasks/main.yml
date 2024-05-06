@@ -1,0 +1,12 @@
+---
+# tasks file for build_war_file
+- name: build project
+  shell: mvn clean package -f /home/azuregyan/gitlab_clone/pom.xml
+
+- name: Creates directory
+  file:
+    path: "/home/azuregyan/war_file/"
+    state: directory
+
+- name: copy war file to folder
+  command: cp /home/azuregyan/gitlab_clone/target/petclinic.war /home/azuregyan/war_file/

@@ -1,0 +1,31 @@
+---
+# tasks file for apache tomcat9
+- name: install apache tomcat9
+  become: yes
+  apt:
+    name: tomcat9
+    state: present
+    update_cache: yes
+
+- name: add azuregyan to tomcat group
+  become: yes
+  user:
+    name: azuregyan
+    groups: tomcat
+    append: yes
+
+- name: refres azuregyan group
+  become: yes
+  shell: id azuregyan
+
+- name: copy war file to webapps
+  copy:
+    src: "/home/azuregyan/war_file/petclinic.war"
+    dest: "/var/lib/tomcat9/webapps/petclinic.war"
+    remote_src: yes
+
+- name: tomcat restart
+  become: yes
+  service:
+    name: tomcat9
+    state: restarted

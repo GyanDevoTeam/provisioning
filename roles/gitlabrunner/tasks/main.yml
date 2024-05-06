@@ -1,0 +1,8 @@
+---
+# tasks file for gitlabrunner
+- name: install gitlab runner
+  become: yes
+  apt:
+    name: gitlab-runner
+    state: present
+    update_cache: yes

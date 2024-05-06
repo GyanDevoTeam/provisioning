@@ -1,0 +1,6 @@
+---
+# tasks file for download_repo
+- name: clone gitlab repo
+  git:
+    repo: "https://gitlab.com/coolkids3/final_project.git"
+    dest: "/home/azuregyan/gitlab_clone"

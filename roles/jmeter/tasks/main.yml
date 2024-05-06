@@ -1,0 +1,31 @@
+---
+# tasks file for jmeter
+- name: make directory
+  file:
+    path: "/home/azuregyan/jmeter_test/"
+    state: directory
+
+- name: download jmeter
+  get_url:
+    url: "https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.6.3.tgz"
+    dest: /tmp/jmeter.tgz
+
+- name: install jmeter
+  become: yes
+  unarchive:
+    src: /tmp/jmeter.tgz
+    dest: /usr/local/bin
+    remote_src: yes
+
+- name: download jmeter test
+  get_url:
+    url: "https://gitlab.com/coolkids3/final_project/-/raw/master/tests/FirstJMeter.jmx"
+    dest: "/home/azuregyan/jmeter_test/"
+
+- name: run jmeter test
+  command: /usr/local/bin/apache-jmeter-5.6.3/bin/jmeter -n -t /home/azuregyan/jmeter_test/FirstJMeter.jmx -l /home/azuregyan/jmeter_test/results.jtl
+  register: jmeter_summary
+
+- name: display jmeter summary
+  debug:
+    msg: "{{ jmeter_summary.stdout_lines }}"

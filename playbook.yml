@@ -1,0 +1,71 @@
+- name: playbook to manage VMs
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - include_role:
+        name: apache_maven
+      when: inventory_hostname in groups["testing_vm"]
+
+    - include_role:
+        name: download_repo
+      when: inventory_hostname in groups["testing_vm"]
+      
+    - include_role:
+        name: build_war_file
+      when: inventory_hostname in groups["testing_vm"]
+
+    - include_role:
+        name: apache_tomcat
+      when: inventory_hostname in groups["testing_vm"]
+
+    - include_role:
+        name: jmeter
+      when: inventory_hostname in groups["testing_vm"]
+    
+    - include_role:
+        name: selenium
+      when: inventory_hostname in groups["testing_vm"]
+
+    - include_role:
+        name: delete_repo
+      when: inventory_hostname in groups["testing_vm"]
+
+    - include_role:
+        name: apache_maven
+      when: inventory_hostname in groups["acceptance_vm"]
+
+    - include_role:
+        name: download_repo
+      when: inventory_hostname in groups["acceptance_vm"]
+
+    - include_role:
+        name: build_war_file
+      when: inventory_hostname in groups["acceptance_vm"]
+    
+    - include_role:
+        name: apache_tomcat
+      when: inventory_hostname in groups["acceptance_vm"]
+
+    - include_role:
+        name: delete_repo
+      when: inventory_hostname in groups["acceptance_vm"]
+
+    - include_role:
+        name: apache_maven
+      when: inventory_hostname in groups["production_vm"]
+
+    - include_role:
+        name: download_repo
+      when: inventory_hostname in groups["production_vm"]  
+
+    - include_role:
+        name: build_war_file
+      when: inventory_hostname in groups["production_vm"]
+    
+    - include_role:
+        name: apache_tomcat
+      when: inventory_hostname in groups["production_vm"]
+
+    - include_role:
+        name: delete_repo
+      when: inventory_hostname in groups["production_vm"]

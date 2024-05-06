@@ -1,0 +1,8 @@
+---
+# tasks file for aptitude
+- name: install aptitude
+  become: yes
+  apt:
+    name: aptitude
+    state: latest
+    update_cache: true

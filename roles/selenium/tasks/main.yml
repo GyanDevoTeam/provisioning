@@ -1,0 +1,58 @@
+---
+# tasks file for selenium
+- name: install selenium
+  become: yes
+  pip:
+    name: selenium
+    state: present
+
+- name: install pytest
+  become: yes
+  pip:
+    name: pytest
+    state: present
+
+- name: install firefox
+  become: yes
+  apt:
+    name: firefox
+    state: present
+    update_cache: yes
+
+- name: download gecko driver
+  get_url:
+    url: "https://github.com/mozilla/geckodriver/releases/download/v0.34.0/geckodriver-v0.34.0-linux64.tar.gz"
+    dest: /tmp/geckodriver.tar.gz
+
+- name: install gecko driver & set permission
+  become: yes
+  unarchive:
+    src: /tmp/geckodriver.tar.gz
+    dest: /usr/local/bin
+    remote_src: yes
+
+- name: set geckodriver execute permission
+  become: yes
+  file:
+    path: /usr/local/bin/geckodriver
+    mode: "0755"
+
+- name: make directory
+  file:
+    path: "/home/azuregyan/selenium_test/"
+    state: directory
+
+- name: download selenium test
+  get_url:
+    url: "https://gitlab.com/coolkids3/final_project/-/raw/master/tests/test_websitebasic.py"
+    dest: "/home/azuregyan/selenium_test"
+
+- name: run selenium test
+  command: pytest -s test_websitebasic.py
+  args:
+    chdir: /home/azuregyan/selenium_test/
+  register: seleniumoutput
+
+- name: display selenium summary
+  debug:
+    msg: "{{ seleniumoutput.stdout_lines }}"

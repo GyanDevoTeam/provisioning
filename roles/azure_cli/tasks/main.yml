@@ -1,0 +1,6 @@
+---
+# tasks file for azure_cli
+- name: download azure cli and setup
+  shell: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash -
+  args: 
+    warn: no
